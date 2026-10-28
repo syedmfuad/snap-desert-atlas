@@ -1,0 +1,349 @@
+<title>National SNAP Deserts</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Public+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F6F7F4;--surface:#FFFFFF;--ink:#1B2430;--muted:#5E6975;--line:#D8DDD6;--accent:#2C6B8A;--accent-soft:#E1EDF3;--tier1:#D9A441;--tier2:#C65A2E;--tier3:#7D1F2E;--good:#3C7D5A;--callout:#FBF3E3;--callout-ink:#5A3D0C}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#12181E;--surface:#1A2129;--ink:#E7ECEF;--muted:#9AA6B1;--line:#2C3640;--accent:#6FB1D0;--accent-soft:#1F3340;--tier1:#E2B45C;--tier2:#DC7A50;--tier3:#C4566A;--good:#6FB58F;--callout:#2A2416;--callout-ink:#EAD6A6}}
+:root[data-theme="dark"]{--bg:#12181E;--surface:#1A2129;--ink:#E7ECEF;--muted:#9AA6B1;--line:#2C3640;--accent:#6FB1D0;--accent-soft:#1F3340;--tier1:#E2B45C;--tier2:#DC7A50;--tier3:#C4566A;--good:#6FB58F;--callout:#2A2416;--callout-ink:#EAD6A6}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Public Sans",system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1100px;margin:0 auto;padding:40px 24px 80px}
+.col{max-width:720px}
+header{border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:32px}
+.eyebrow{font-family:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:"Fraunces",Georgia,"Times New Roman",serif;font-weight:700;font-size:44px;line-height:1.05;margin:8px 0 12px;text-wrap:balance;letter-spacing:-.01em}
+h2{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:26px;line-height:1.2;margin:48px 0 12px;text-wrap:balance}
+h3{font-size:15px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;color:var(--muted);margin:28px 0 8px}
+p{margin:0 0 14px;max-width:68ch}
+a{color:var(--accent)}
+.lede{font-size:18px;color:var(--ink);max-width:64ch}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin:28px 0 8px}
+.kpi{background:var(--surface);padding:18px 18px 16px}
+.kpi .v{font-family:"Fraunces",Georgia,serif;font-weight:500;font-size:34px;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.kpi .l{font-size:13px;color:var(--muted);margin-top:8px}
+.kpi .s{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--accent);margin-top:4px}
+.tiers{display:flex;gap:0;margin:16px 0 4px;height:14px;border-radius:2px;overflow:hidden}
+.tiers span{display:block;height:100%}
+.tier-key{display:flex;gap:18px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.tier-key i{display:inline-block;width:10px;height:10px;margin-right:6px;vertical-align:-1px}
+.note{background:var(--callout);color:var(--callout-ink);padding:14px 18px;border-left:3px solid var(--tier1);margin:18px 0;max-width:72ch;font-size:15px}
+.note p{margin:0;color:inherit;max-width:none}
+.chart{width:100%;height:auto;display:block;margin:12px 0 4px}
+.chart .grid{stroke:var(--line);stroke-width:1}
+.chart .tick{fill:var(--muted);font-family:"IBM Plex Mono",monospace;font-size:11px}
+.chart .tick.fs{fill:var(--good);font-size:10px}
+.chart .lbl{fill:var(--ink);font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:500}
+.chart .val{fill:var(--ink);font-family:"IBM Plex Mono",monospace;font-size:11px}
+.chart .val.muted{fill:var(--muted)}
+.chart .bar{fill:var(--accent);opacity:.55}
+.chart .bar-crit{fill:var(--tier3)}
+.chart .line-own{fill:none;stroke:var(--accent);stroke-width:2.5}
+.chart .line-harm{fill:none;stroke:var(--accent);stroke-width:1.5;stroke-dasharray:5 4;opacity:.7}
+.chart .line-fs{fill:none;stroke:var(--good);stroke-width:1.5;opacity:.8}
+.chart .dot{fill:var(--surface);stroke:var(--accent);stroke-width:2}
+.chart .dot-fs{fill:var(--surface);stroke:var(--good);stroke-width:1.5}
+.chart .legend{fill:var(--muted);font-size:11px;font-family:"Public Sans",sans-serif}
+.chart .sw-own{fill:var(--accent)}.chart .sw-harm{fill:var(--accent);opacity:.6}.chart .sw-fs{fill:var(--good)}
+.cap{font-size:13px;color:var(--muted);max-width:72ch;margin:4px 0 0}
+.scroll{overflow-x:auto;margin:12px 0 8px;border:1px solid var(--line);background:var(--surface)}
+table.tbl{border-collapse:collapse;width:100%;font-size:13.5px;font-variant-numeric:tabular-nums}
+.tbl th{position:sticky;top:0;background:var(--surface);text-align:left;font-weight:600;font-size:12px;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl td{padding:7px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl td.num{text-align:right;font-family:"IBM Plex Mono",monospace;font-size:12.5px}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tbody tr:hover td{background:var(--accent-soft)}
+.tall{max-height:480px;overflow-y:auto}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:16px 0}
+.tile{padding:16px;border-top:4px solid var(--line);background:var(--surface)}
+.tile-n{font-family:"Fraunces",Georgia,serif;font-size:30px;font-weight:500;line-height:1;font-variant-numeric:tabular-nums}
+.tile-l{font-size:14px;margin-top:8px;font-weight:600}
+.tile-s{font-size:12px;color:var(--muted);margin-top:2px;font-family:"IBM Plex Mono",monospace}
+.t-both{border-top-color:var(--tier3)}.t-snap{border-top-color:var(--tier2)}.t-sram{border-top-color:var(--accent)}.t-none{border-top-color:var(--line)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media (max-width:760px){.two{grid-template-columns:1fr}h1{font-size:34px}}
+.big{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:600}
+ul{padding-left:20px;max-width:70ch}li{margin-bottom:6px}
+footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+<div class="wrap">
+<header>
+  <div class="eyebrow">Working results &middot; stores active 12/31/2024 &middot; ACS 2019&ndash;2023 &middot; 2020 census tracts</div>
+  <h1>National SNAP Deserts</h1>
+  <p style="margin:0 0 14px;font-size:13px"><a href="./" style="color:var(--accent);font-weight:600">Open the interactive atlas &rarr;</a><span style="color:var(--muted)"> &nbsp;every desert tract on a map, by state</span></p>
+  <p class="lede">A monitoring measure, not evidence of unmet need: census tracts where at least 15% of households receive SNAP but no full-service SNAP-authorized store (supermarket, large grocery, or super store) sits within USDA's food desert distances of half a mile in urban tracts or ten miles in rural ones. The distance thresholds are USDA's; the 15% participation cutoff is this study's own, since USDA screens need by income. Contiguous 48 states plus DC; Alaska and Hawaii reported separately; Puerto Rico excluded because it operates NAP rather than SNAP.</p>
+</header>
+
+<div class="kpis">
+  <div class="kpi"><div class="v">10,966</div><div class="l">SNAP desert tracts</div><div class="s">13.1% of 83,634 tracts</div></div>
+  <div class="kpi"><div class="v">3,952,470</div><div class="l">SNAP households living in them</div><div class="s">26.5% of all SNAP households</div></div>
+  <div class="kpi"><div class="v">40,798,882</div><div class="l">residents of desert tracts</div><div class="s">10,428 urban &middot; 538 rural tracts</div></div>
+  <div class="kpi"><div class="v">43,631</div><div class="l">full-service SNAP stores</div><div class="s">of 251,301 SNAP retailers</div></div>
+</div>
+<div class="tiers" aria-hidden="true"><span style="width:53.7%;background:var(--tier1)"></span><span style="width:25.6%;background:var(--tier2)"></span><span style="width:20.6%;background:var(--tier3)"></span></div>
+<div class="tier-key"><span><i style="background:var(--tier1)"></i>Moderate 15&ndash;25% SNAP: 5,894</span><span><i style="background:var(--tier2)"></i>Severe 25&ndash;35%: 2,809</span><span><i style="background:var(--tier3)"></i>Critical &ge;35%: 2,263</span></div>
+
+<div class="col">
+<div class="note"><p><strong>What changed since the Alabama draft.</strong> Distances now run from the Census population-weighted tract center instead of the geometric point (the geometric version gives 11,576 deserts nationally and reproduces Alabama's 217 exactly). Each panel year sits on its own tract vintage, which fixes the 2012&ndash;2018 undercount. Census sentinel values no longer contaminate income averages.</p></div>
+</div>
+
+<h2>Where SNAP deserts concentrate</h2>
+<div class="col"><p>New Mexico, Louisiana, Ohio, Michigan, Florida, and Texas lead on the share of tracts classified as deserts. The dark segment of each bar is the Critical tier, where at least 35% of households receive SNAP. The right-hand figure is the share of the state's SNAP households living in desert tracts, which is what a state agency would care about.</p></div>
+<svg viewBox="0 0 760 470" class="chart" role="img" aria-label="States ranked by share of tracts that are SNAP deserts">
+<line x1="46.0" y1="4" x2="46.0" y2="448" class="grid"/><text x="46.0" y="462" class="tick" text-anchor="middle">0%</text>
+<line x1="126.8" y1="4" x2="126.8" y2="448" class="grid"/><text x="126.8" y="462" class="tick" text-anchor="middle">5%</text>
+<line x1="207.6" y1="4" x2="207.6" y2="448" class="grid"/><text x="207.6" y="462" class="tick" text-anchor="middle">10%</text>
+<line x1="288.4" y1="4" x2="288.4" y2="448" class="grid"/><text x="288.4" y="462" class="tick" text-anchor="middle">15%</text>
+<line x1="369.2" y1="4" x2="369.2" y2="448" class="grid"/><text x="369.2" y="462" class="tick" text-anchor="middle">20%</text>
+<line x1="450.0" y1="4" x2="450.0" y2="448" class="grid"/><text x="450.0" y="462" class="tick" text-anchor="middle">25%</text>
+<line x1="530.8" y1="4" x2="530.8" y2="448" class="grid"/><text x="530.8" y="462" class="tick" text-anchor="middle">30%</text>
+<text x="38" y="21.0" class="lbl" text-anchor="end">NM</text>
+<rect x="46" y="9.0" width="478.0" height="16" class="bar"/>
+<rect x="46" y="9.0" width="124.1" height="16" class="bar-crit"/>
+<text x="530.0" y="21.0" class="val">29.6%</text>
+<text x="756" y="21.0" class="val muted" text-anchor="end">46% of state SNAP HH</text>
+<text x="38" y="43.0" class="lbl" text-anchor="end">LA</text>
+<rect x="46" y="31.0" width="334.0" height="16" class="bar"/>
+<rect x="46" y="31.0" width="75.0" height="16" class="bar-crit"/>
+<text x="386.0" y="43.0" class="val">20.7%</text>
+<text x="756" y="43.0" class="val muted" text-anchor="end">29% of state SNAP HH</text>
+<text x="38" y="65.0" class="lbl" text-anchor="end">OH</text>
+<rect x="46" y="53.0" width="310.7" height="16" class="bar"/>
+<rect x="46" y="53.0" width="100.7" height="16" class="bar-crit"/>
+<text x="362.7" y="65.0" class="val">19.2%</text>
+<text x="756" y="65.0" class="val muted" text-anchor="end">36% of state SNAP HH</text>
+<text x="38" y="87.0" class="lbl" text-anchor="end">MI</text>
+<rect x="46" y="75.0" width="293.1" height="16" class="bar"/>
+<rect x="46" y="75.0" width="102.2" height="16" class="bar-crit"/>
+<text x="345.1" y="87.0" class="val">18.1%</text>
+<text x="756" y="87.0" class="val muted" text-anchor="end">36% of state SNAP HH</text>
+<text x="38" y="109.0" class="lbl" text-anchor="end">FL</text>
+<rect x="46" y="97.0" width="292.5" height="16" class="bar"/>
+<rect x="46" y="97.0" width="54.0" height="16" class="bar-crit"/>
+<text x="344.5" y="109.0" class="val">18.1%</text>
+<text x="756" y="109.0" class="val muted" text-anchor="end">35% of state SNAP HH</text>
+<text x="38" y="131.0" class="lbl" text-anchor="end">OR</text>
+<rect x="46" y="119.0" width="286.2" height="16" class="bar"/>
+<rect x="46" y="119.0" width="29.3" height="16" class="bar-crit"/>
+<text x="338.2" y="131.0" class="val">17.7%</text>
+<text x="756" y="131.0" class="val muted" text-anchor="end">28% of state SNAP HH</text>
+<text x="38" y="153.0" class="lbl" text-anchor="end">TX</text>
+<rect x="46" y="141.0" width="281.0" height="16" class="bar"/>
+<rect x="46" y="141.0" width="49.8" height="16" class="bar-crit"/>
+<text x="333.0" y="153.0" class="val">17.4%</text>
+<text x="756" y="153.0" class="val muted" text-anchor="end">36% of state SNAP HH</text>
+<text x="38" y="175.0" class="lbl" text-anchor="end">OK</text>
+<rect x="46" y="163.0" width="280.2" height="16" class="bar"/>
+<rect x="46" y="163.0" width="40.2" height="16" class="bar-crit"/>
+<text x="332.2" y="175.0" class="val">17.3%</text>
+<text x="756" y="175.0" class="val muted" text-anchor="end">30% of state SNAP HH</text>
+<text x="38" y="197.0" class="lbl" text-anchor="end">IL</text>
+<rect x="46" y="185.0" width="278.7" height="16" class="bar"/>
+<rect x="46" y="185.0" width="83.7" height="16" class="bar-crit"/>
+<text x="330.7" y="197.0" class="val">17.2%</text>
+<text x="756" y="197.0" class="val muted" text-anchor="end">30% of state SNAP HH</text>
+<text x="38" y="219.0" class="lbl" text-anchor="end">DC</text>
+<rect x="46" y="207.0" width="250.9" height="16" class="bar"/>
+<rect x="46" y="207.0" width="109.8" height="16" class="bar-crit"/>
+<text x="302.9" y="219.0" class="val">15.5%</text>
+<text x="756" y="219.0" class="val muted" text-anchor="end">33% of state SNAP HH</text>
+<text x="38" y="241.0" class="lbl" text-anchor="end">PA</text>
+<rect x="46" y="229.0" width="248.2" height="16" class="bar"/>
+<rect x="46" y="229.0" width="78.8" height="16" class="bar-crit"/>
+<text x="300.2" y="241.0" class="val">15.4%</text>
+<text x="756" y="241.0" class="val muted" text-anchor="end">28% of state SNAP HH</text>
+<text x="38" y="263.0" class="lbl" text-anchor="end">NV</text>
+<rect x="46" y="251.0" width="246.9" height="16" class="bar"/>
+<rect x="46" y="251.0" width="33.2" height="16" class="bar-crit"/>
+<text x="298.9" y="263.0" class="val">15.3%</text>
+<text x="756" y="263.0" class="val muted" text-anchor="end">29% of state SNAP HH</text>
+<text x="38" y="285.0" class="lbl" text-anchor="end">AZ</text>
+<rect x="46" y="273.0" width="245.3" height="16" class="bar"/>
+<rect x="46" y="273.0" width="26.5" height="16" class="bar-crit"/>
+<text x="297.3" y="285.0" class="val">15.2%</text>
+<text x="756" y="285.0" class="val muted" text-anchor="end">33% of state SNAP HH</text>
+<text x="38" y="307.0" class="lbl" text-anchor="end">GA</text>
+<rect x="46" y="295.0" width="243.7" height="16" class="bar"/>
+<rect x="46" y="295.0" width="52.1" height="16" class="bar-crit"/>
+<text x="295.7" y="307.0" class="val">15.1%</text>
+<text x="756" y="307.0" class="val muted" text-anchor="end">30% of state SNAP HH</text>
+<text x="38" y="329.0" class="lbl" text-anchor="end">CT</text>
+<rect x="46" y="317.0" width="239.0" height="16" class="bar"/>
+<rect x="46" y="317.0" width="55.1" height="16" class="bar-crit"/>
+<text x="291.0" y="329.0" class="val">14.8%</text>
+<text x="756" y="329.0" class="val muted" text-anchor="end">35% of state SNAP HH</text>
+<text x="38" y="351.0" class="lbl" text-anchor="end">AL</text>
+<rect x="46" y="339.0" width="236.2" height="16" class="bar"/>
+<rect x="46" y="339.0" width="68.6" height="16" class="bar-crit"/>
+<text x="288.2" y="351.0" class="val">14.6%</text>
+<text x="756" y="351.0" class="val muted" text-anchor="end">26% of state SNAP HH</text>
+<text x="38" y="373.0" class="lbl" text-anchor="end">RI</text>
+<rect x="46" y="361.0" width="235.4" height="16" class="bar"/>
+<rect x="46" y="361.0" width="26.2" height="16" class="bar-crit"/>
+<text x="287.4" y="373.0" class="val">14.6%</text>
+<text x="756" y="373.0" class="val muted" text-anchor="end">24% of state SNAP HH</text>
+<text x="38" y="395.0" class="lbl" text-anchor="end">MD</text>
+<rect x="46" y="383.0" width="226.2" height="16" class="bar"/>
+<rect x="46" y="383.0" width="59.6" height="16" class="bar-crit"/>
+<text x="278.2" y="395.0" class="val">14.0%</text>
+<text x="756" y="395.0" class="val muted" text-anchor="end">30% of state SNAP HH</text>
+<text x="38" y="417.0" class="lbl" text-anchor="end">MS</text>
+<rect x="46" y="405.0" width="223.5" height="16" class="bar"/>
+<rect x="46" y="405.0" width="38.8" height="16" class="bar-crit"/>
+<text x="275.5" y="417.0" class="val">13.8%</text>
+<text x="756" y="417.0" class="val muted" text-anchor="end">25% of state SNAP HH</text>
+<text x="38" y="439.0" class="lbl" text-anchor="end">IN</text>
+<rect x="46" y="427.0" width="222.3" height="16" class="bar"/>
+<rect x="46" y="427.0" width="25.8" height="16" class="bar-crit"/>
+<text x="274.3" y="439.0" class="val">13.8%</text>
+<text x="756" y="439.0" class="val muted" text-anchor="end">31% of state SNAP HH</text>
+</svg>
+<p class="cap">Top 20 states by desert share. Full table below.</p>
+<h3>All states</h3>
+<div class="tall"><div class="scroll"><table class="tbl"><thead><tr><th>State</th><th>Tracts</th><th>Deserts</th><th>Desert %</th><th>Critical</th><th>Rural deserts</th><th>SNAP HH in deserts</th><th>Share of state SNAP HH %</th></tr></thead><tbody><tr><td class="">NM</td><td class="num">612</td><td class="num">181</td><td class="num">29.6</td><td class="num">47</td><td class="num">55</td><td class="num">70,756</td><td class="num">46.0</td></tr><tr><td class="">LA</td><td class="num">1,379</td><td class="num">285</td><td class="num">20.7</td><td class="num">64</td><td class="num">34</td><td class="num">87,551</td><td class="num">29.5</td></tr><tr><td class="">OH</td><td class="num">3,162</td><td class="num">608</td><td class="num">19.2</td><td class="num">197</td><td class="num">8</td><td class="num">218,217</td><td class="num">36.4</td></tr><tr><td class="">MI</td><td class="num">2,972</td><td class="num">539</td><td class="num">18.1</td><td class="num">188</td><td class="num">11</td><td class="num">188,984</td><td class="num">35.8</td></tr><tr><td class="">FL</td><td class="num">5,122</td><td class="num">927</td><td class="num">18.1</td><td class="num">171</td><td class="num">15</td><td class="num">380,634</td><td class="num">35.3</td></tr><tr><td class="">OR</td><td class="num">994</td><td class="num">176</td><td class="num">17.7</td><td class="num">18</td><td class="num">18</td><td class="num">72,729</td><td class="num">27.8</td></tr><tr><td class="">TX</td><td class="num">6,884</td><td class="num">1,197</td><td class="num">17.4</td><td class="num">212</td><td class="num">35</td><td class="num">438,684</td><td class="num">35.8</td></tr><tr><td class="">OK</td><td class="num">1,205</td><td class="num">209</td><td class="num">17.3</td><td class="num">30</td><td class="num">31</td><td class="num">63,907</td><td class="num">30.5</td></tr><tr><td class="">IL</td><td class="num">3,263</td><td class="num">563</td><td class="num">17.2</td><td class="num">169</td><td class="num">21</td><td class="num">200,066</td><td class="num">29.7</td></tr><tr><td class="">DC</td><td class="num">206</td><td class="num">32</td><td class="num">15.5</td><td class="num">14</td><td class="num">0</td><td class="num">13,974</td><td class="num">32.8</td></tr><tr><td class="">PA</td><td class="num">3,445</td><td class="num">529</td><td class="num">15.4</td><td class="num">168</td><td class="num">4</td><td class="num">207,502</td><td class="num">28.2</td></tr><tr><td class="">NV</td><td class="num">779</td><td class="num">119</td><td class="num">15.3</td><td class="num">16</td><td class="num">4</td><td class="num">42,943</td><td class="num">29.4</td></tr><tr><td class="">AZ</td><td class="num">1,765</td><td class="num">268</td><td class="num">15.2</td><td class="num">29</td><td class="num">36</td><td class="num">93,680</td><td class="num">33.1</td></tr><tr><td class="">GA</td><td class="num">2,791</td><td class="num">421</td><td class="num">15.1</td><td class="num">90</td><td class="num">28</td><td class="num">145,181</td><td class="num">29.5</td></tr><tr><td class="">CT</td><td class="num">879</td><td class="num">130</td><td class="num">14.8</td><td class="num">30</td><td class="num">0</td><td class="num">58,635</td><td class="num">35.4</td></tr><tr><td class="">AL</td><td class="num">1,436</td><td class="num">210</td><td class="num">14.6</td><td class="num">61</td><td class="num">25</td><td class="num">70,627</td><td class="num">26.4</td></tr><tr><td class="">RI</td><td class="num">247</td><td class="num">36</td><td class="num">14.6</td><td class="num">4</td><td class="num">0</td><td class="num">14,532</td><td class="num">23.8</td></tr><tr><td class="">MD</td><td class="num">1,464</td><td class="num">205</td><td class="num">14</td><td class="num">54</td><td class="num">2</td><td class="num">77,098</td><td class="num">30.0</td></tr><tr><td class="">MS</td><td class="num">875</td><td class="num">121</td><td class="num">13.8</td><td class="num">21</td><td class="num">22</td><td class="num">38,272</td><td class="num">24.8</td></tr><tr><td class="">IN</td><td class="num">1,693</td><td class="num">233</td><td class="num">13.8</td><td class="num">27</td><td class="num">0</td><td class="num">74,143</td><td class="num">30.7</td></tr><tr><td class="">MA</td><td class="num">1,613</td><td class="num">217</td><td class="num">13.4</td><td class="num">52</td><td class="num">0</td><td class="num">102,995</td><td class="num">26.9</td></tr><tr><td class="">WA</td><td class="num">1,772</td><td class="num">237</td><td class="num">13.4</td><td class="num">12</td><td class="num">12</td><td class="num">91,479</td><td class="num">26.6</td></tr><tr><td class="">WV</td><td class="num">546</td><td class="num">71</td><td class="num">13</td><td class="num">14</td><td class="num">14</td><td class="num">20,475</td><td class="num">16.5</td></tr><tr><td class="">WI</td><td class="num">1,528</td><td class="num">197</td><td class="num">12.9</td><td class="num">45</td><td class="num">6</td><td class="num">69,140</td><td class="num">26.3</td></tr><tr><td class="">TN</td><td class="num">1,701</td><td class="num">218</td><td class="num">12.8</td><td class="num">54</td><td class="num">9</td><td class="num">81,479</td><td class="num">26.3</td></tr><tr><td class="">NC</td><td class="num">2,660</td><td class="num">308</td><td class="num">11.6</td><td class="num">58</td><td class="num">17</td><td class="num">120,646</td><td class="num">23.0</td></tr><tr><td class="">DE</td><td class="num">259</td><td class="num">29</td><td class="num">11.2</td><td class="num">1</td><td class="num">0</td><td class="num">8,763</td><td class="num">20.4</td></tr><tr><td class="">CA</td><td class="num">9,109</td><td class="num">1,004</td><td class="num">11.0</td><td class="num">123</td><td class="num">24</td><td class="num">332,730</td><td class="num">21.8</td></tr><tr><td class="">MO</td><td class="num">1,654</td><td class="num">181</td><td class="num">10.9</td><td class="num">32</td><td class="num">6</td><td class="num">60,926</td><td class="num">24.7</td></tr><tr><td class="">SC</td><td class="num">1,317</td><td class="num">124</td><td class="num">9.4</td><td class="num">25</td><td class="num">14</td><td class="num">38,426</td><td class="num">17.7</td></tr><tr><td class="">VA</td><td class="num">2,186</td><td class="num">201</td><td class="num">9.2</td><td class="num">38</td><td class="num">9</td><td class="num">71,757</td><td class="num">24.5</td></tr><tr><td class="">KY</td><td class="num">1,306</td><td class="num">116</td><td class="num">8.9</td><td class="num">24</td><td class="num">11</td><td class="num">35,462</td><td class="num">15.6</td></tr><tr><td class="">CO</td><td class="num">1,447</td><td class="num">127</td><td class="num">8.8</td><td class="num">10</td><td class="num">8</td><td class="num">41,654</td><td class="num">22.3</td></tr><tr><td class="">KS</td><td class="num">829</td><td class="num">69</td><td class="num">8.3</td><td class="num">6</td><td class="num">0</td><td class="num">18,980</td><td class="num">23.5</td></tr><tr><td class="">NE</td><td class="num">553</td><td class="num">45</td><td class="num">8.1</td><td class="num">8</td><td class="num">1</td><td class="num">14,647</td><td class="num">23.3</td></tr><tr><td class="">AR</td><td class="num">823</td><td class="num">65</td><td class="num">7.9</td><td class="num">7</td><td class="num">15</td><td class="num">19,216</td><td class="num">15.4</td></tr><tr><td class="">IA</td><td class="num">896</td><td class="num">67</td><td class="num">7.5</td><td class="num">10</td><td class="num">1</td><td class="num">22,132</td><td class="num">18.5</td></tr><tr><td class="">MT</td><td class="num">319</td><td class="num">21</td><td class="num">6.6</td><td class="num">2</td><td class="num">9</td><td class="num">5,137</td><td class="num">13.6</td></tr><tr><td class="">NY</td><td class="num">5,395</td><td class="num">354</td><td class="num">6.6</td><td class="num">85</td><td class="num">9</td><td class="num">128,846</td><td class="num">11.2</td></tr><tr><td class="">ME</td><td class="num">401</td><td class="num">26</td><td class="num">6.5</td><td class="num">4</td><td class="num">9</td><td class="num">8,405</td><td class="num">12.1</td></tr><tr><td class="">NJ</td><td class="num">2,175</td><td class="num">136</td><td class="num">6.2</td><td class="num">25</td><td class="num">0</td><td class="num">47,609</td><td class="num">15.6</td></tr><tr><td class="">MN</td><td class="num">1,502</td><td class="num">92</td><td class="num">6.1</td><td class="num">15</td><td class="num">4</td><td class="num">31,182</td><td class="num">18.0</td></tr><tr><td class="">SD</td><td class="num">242</td><td class="num">14</td><td class="num">5.8</td><td class="num">1</td><td class="num">5</td><td class="num">3,830</td><td class="num">13.2</td></tr><tr><td class="">ID</td><td class="num">456</td><td class="num">26</td><td class="num">5.7</td><td class="num">1</td><td class="num">1</td><td class="num">8,071</td><td class="num">14.9</td></tr><tr><td class="">VT</td><td class="num">193</td><td class="num">6</td><td class="num">3.1</td><td class="num">0</td><td class="num">2</td><td class="num">2,338</td><td class="num">8.3</td></tr><tr><td class="">NH</td><td class="num">349</td><td class="num">9</td><td class="num">2.6</td><td class="num">0</td><td class="num">0</td><td class="num">2,969</td><td class="num">9.0</td></tr><tr><td class="">UT</td><td class="num">716</td><td class="num">13</td><td class="num">1.8</td><td class="num">0</td><td class="num">1</td><td class="num">4,248</td><td class="num">7.3</td></tr><tr><td class="">WY</td><td class="num">160</td><td class="num">2</td><td class="num">1.2</td><td class="num">0</td><td class="num">0</td><td class="num">561</td><td class="num">4.7</td></tr><tr><td class="">ND</td><td class="num">228</td><td class="num">2</td><td class="num">0.9</td><td class="num">1</td><td class="num">2</td><td class="num">252</td><td class="num">1.2</td></tr></tbody></table></div></div>
+
+<h2>Who lives in a SNAP desert</h2>
+<div class="col"><p>Desert tracts are compared with tracts that clear the 15% SNAP threshold but have a full-service store in reach, which isolates the access gap from participation itself.</p></div>
+<div class="scroll"><table class="tbl"><thead><tr><th>Mean</th><th>SNAP deserts</th><th>High-SNAP, not desert</th><th>Other tracts</th></tr></thead><tbody><tr><td class="">SNAP household share</td><td class="">27.2%</td><td class="">26.1%</td><td class="">6.3%</td></tr><tr><td class="">Poverty rate</td><td class="">23.4%</td><td class="">22.1%</td><td class="">9.4%</td></tr><tr><td class="">Median household income ($)</td><td class="">53,885</td><td class="">55,260</td><td class="">97,533</td></tr><tr><td class="">Unemployment rate</td><td class="">8.2%</td><td class="">7.6%</td><td class="">4.4%</td></tr><tr><td class="">Black share</td><td class="">28.9%</td><td class="">20.2%</td><td class="">7.9%</td></tr><tr><td class="">Hispanic share</td><td class="">26.5%</td><td class="">26.6%</td><td class="">14.0%</td></tr><tr><td class="">Households without a vehicle</td><td class="">13.1%</td><td class="">16.0%</td><td class="">5.7%</td></tr><tr><td class="">Commute by transit</td><td class="">3.7%</td><td class="">7.4%</td><td class="">2.6%</td></tr><tr><td class="">Housing vacancy</td><td class="">11.7%</td><td class="">12.2%</td><td class="">9.6%</td></tr><tr><td class="">Bachelor&#x27;s or higher</td><td class="">19.7%</td><td class="">19.5%</td><td class="">40.0%</td></tr><tr><td class="">Density (per sq mi)</td><td class="">5,073</td><td class="">9,865</td><td class="">4,172</td></tr><tr><td class="">Miles to full-service store</td><td class="">1.62</td><td class="">1.47</td><td class="">2.87</td></tr><tr><td class="">Miles to any SNAP store</td><td class="">0.54</td><td class="">0.71</td><td class="">1.92</td></tr></tbody></table></div>
+
+<h2>Twelve years of change</h2>
+<div class="col"><p>Each year is measured on the tract boundaries its ACS release uses, so counts are comparable within a vintage. The dashed line harmonizes every year onto 2020 tracts by majority land area. The 2024 cross-section reuses the 2019&ndash;2023 ACS and differs from 2023 only in the store network, so it appears in the table and the store-count panel but not on the share line.</p></div>
+<svg viewBox="0 0 760 230" class="chart" role="img" aria-label="SNAP desert share over time">
+<line x1="52" y1="186.0" x2="736" y2="186.0" class="grid"/><text x="44" y="190.0" class="tick" text-anchor="end">0%</text>
+<line x1="52" y1="149.7" x2="736" y2="149.7" class="grid"/><text x="44" y="153.7" class="tick" text-anchor="end">4%</text>
+<line x1="52" y1="113.4" x2="736" y2="113.4" class="grid"/><text x="44" y="117.4" class="tick" text-anchor="end">8%</text>
+<line x1="52" y1="77.2" x2="736" y2="77.2" class="grid"/><text x="44" y="81.2" class="tick" text-anchor="end">12%</text>
+<line x1="52" y1="40.9" x2="736" y2="40.9" class="grid"/><text x="44" y="44.9" class="tick" text-anchor="end">16%</text>
+<text x="52.0" y="204" class="tick" text-anchor="middle">2012</text>
+<text x="238.5" y="204" class="tick" text-anchor="middle">2015</text>
+<text x="425.1" y="204" class="tick" text-anchor="middle">2018</text>
+<text x="611.6" y="204" class="tick" text-anchor="middle">2021</text>
+<text x="736.0" y="204" class="tick" text-anchor="middle">2023</text>
+<polyline points="52.0,79.4 238.5,56.1 425.1,66.8 611.6,73.0 736.0,66.7" class="line-harm"/>
+<text x="52.0" y="94.4" class="tick" text-anchor="middle">11.8%</text>
+<text x="238.5" y="71.1" class="tick" text-anchor="middle">14.3%</text>
+<text x="425.1" y="81.8" class="tick" text-anchor="middle">13.1%</text>
+<text x="611.6" y="88.0" class="tick" text-anchor="middle">12.5%</text>
+<text x="736.0" y="81.7" class="tick" text-anchor="middle">13.2%</text>
+<polyline points="52.0,73.3 238.5,49.3 425.1,59.9 611.6,73.0 736.0,66.7" class="line-own"/>
+<circle cx="52.0" cy="73.3" r="3.5" class="dot"/><text x="52.0" y="64.3" class="val" text-anchor="middle">12.4%</text>
+<circle cx="238.5" cy="49.3" r="3.5" class="dot"/><text x="238.5" y="40.3" class="val" text-anchor="middle">15.1%</text>
+<circle cx="425.1" cy="59.9" r="3.5" class="dot"/><text x="425.1" y="50.9" class="val" text-anchor="middle">13.9%</text>
+<circle cx="611.6" cy="73.0" r="3.5" class="dot"/><text x="611.6" y="64.0" class="val" text-anchor="middle">12.5%</text>
+<circle cx="736.0" cy="66.7" r="3.5" class="dot"/><text x="736.0" y="57.7" class="val" text-anchor="middle">13.2%</text>
+<text x="52" y="222" class="legend"><tspan class="sw-own">&#9644;</tspan> share of tracts that are SNAP deserts, each year on its own tract vintage &#160;&#160; <tspan class="sw-harm">&#9644;</tspan> harmonized to 2020 tracts</text>
+</svg>
+<svg viewBox="0 0 760 150" class="chart" role="img" aria-label="Full-service SNAP stores over time">
+<line x1="52" y1="103.0" x2="736" y2="103.0" class="grid"/><text x="44" y="107.0" class="tick" text-anchor="end">42,000</text>
+<line x1="52" y1="69.0" x2="736" y2="69.0" class="grid"/><text x="44" y="73.0" class="tick" text-anchor="end">43,000</text>
+<line x1="52" y1="35.0" x2="736" y2="35.0" class="grid"/><text x="44" y="39.0" class="tick" text-anchor="end">44,000</text>
+<text x="52.0" y="138" class="tick" text-anchor="middle">2012</text>
+<text x="223.0" y="138" class="tick" text-anchor="middle">2015</text>
+<text x="394.0" y="138" class="tick" text-anchor="middle">2018</text>
+<text x="565.0" y="138" class="tick" text-anchor="middle">2021</text>
+<text x="679.0" y="138" class="tick" text-anchor="middle">2023</text>
+<text x="736.0" y="138" class="tick" text-anchor="middle">2024</text>
+<polyline points="52.0,101.0 223.0,90.0 394.0,80.1 565.0,70.9 679.0,67.9 736.0,47.5" class="line-fs"/>
+<circle cx="52.0" cy="101.0" r="3" class="dot-fs"/><text x="52.0" y="93.0" class="tick fs" text-anchor="middle">42,060</text>
+<circle cx="223.0" cy="90.0" r="3" class="dot-fs"/><text x="223.0" y="82.0" class="tick fs" text-anchor="middle">42,382</text>
+<circle cx="394.0" cy="80.1" r="3" class="dot-fs"/><text x="394.0" y="72.1" class="tick fs" text-anchor="middle">42,674</text>
+<circle cx="565.0" cy="70.9" r="3" class="dot-fs"/><text x="565.0" y="62.9" class="tick fs" text-anchor="middle">42,943</text>
+<circle cx="679.0" cy="67.9" r="3" class="dot-fs"/><text x="679.0" y="59.9" class="tick fs" text-anchor="middle">43,032</text>
+<circle cx="736.0" cy="47.5" r="3" class="dot-fs"/><text x="736.0" y="39.5" class="tick fs" text-anchor="middle">43,631</text>
+<text x="52" y="12" class="legend"><tspan class="sw-fs">&#9644;</tspan> full-service SNAP stores active at year end (axis starts at 42,000, not zero)</text>
+</svg>
+<div class="scroll"><table class="tbl"><thead><tr><th>Year</th><th>ACS 5-yr</th><th>Tract vintage</th><th>Tracts</th><th>Deserts</th><th>Desert %</th><th>SNAP HH in deserts</th><th>Share of SNAP HH %</th><th>Critical</th><th>Full-service stores</th></tr></thead><tbody><tr><td class="">2012</td><td class="">2008-2012</td><td class="">2010</td><td class="num">72,462</td><td class="num">9,005</td><td class="num">12.4</td><td class="num">3,215,292</td><td class="num">24.5</td><td class="num">1,862</td><td class="num">42,060</td></tr><tr><td class="">2015</td><td class="">2011-2015</td><td class="">2010</td><td class="num">72,462</td><td class="num">10,921</td><td class="num">15.1</td><td class="num">4,200,729</td><td class="num">27.4</td><td class="num">2,719</td><td class="num">42,382</td></tr><tr><td class="">2018</td><td class="">2014-2018</td><td class="">2010</td><td class="num">72,462</td><td class="num">10,069</td><td class="num">13.9</td><td class="num">3,818,121</td><td class="num">26.2</td><td class="num">2,261</td><td class="num">42,674</td></tr><tr><td class="">2021</td><td class="">2017-2021</td><td class="">2020</td><td class="num">83,634</td><td class="num">10,423</td><td class="num">12.5</td><td class="num">3,665,547</td><td class="num">26.4</td><td class="num">2,117</td><td class="num">42,943</td></tr><tr><td class="">2023</td><td class="">2019-2023</td><td class="">2020</td><td class="num">83,634</td><td class="num">11,002</td><td class="num">13.2</td><td class="num">3,966,619</td><td class="num">26.6</td><td class="num">2,271</td><td class="num">43,032</td></tr><tr><td class="">2024</td><td class="">2019-2023</td><td class="">2020</td><td class="num">83,634</td><td class="num">10,966</td><td class="num">13.1</td><td class="num">3,952,470</td><td class="num">26.5</td><td class="num">2,263</td><td class="num">43,631</td></tr></tbody></table></div>
+<div class="two">
+  <div><h3>Tract trajectories, 2020 tracts</h3><div class="scroll"><table class="tbl"><thead><tr><th>Trajectory 2012-2024</th><th>2020 tracts</th><th>%</th></tr></thead><tbody><tr><td class="">Never a desert</td><td class="num">66,127</td><td class="num">79.1</td></tr><tr><td class="">Desert in every year</td><td class="num">5,311</td><td class="num">6.4</td></tr><tr><td class="">Became a desert</td><td class="num">4,581</td><td class="num">5.5</td></tr><tr><td class="">Intermittent</td><td class="num">4,172</td><td class="num">5.0</td></tr><tr><td class="">Recovered</td><td class="num">3,443</td><td class="num">4.1</td></tr></tbody></table></div></div>
+  <div><h3>Year-to-year transitions</h3><div class="scroll"><table class="tbl"><thead><tr><th>Period</th><th>Became desert</th><th>Recovered</th><th>Stayed desert</th></tr></thead><tbody><tr><td class="">2012 to 2015</td><td class="num">3,281</td><td class="num">1,132</td><td class="num">8,696</td></tr><tr><td class="">2015 to 2018</td><td class="num">1,510</td><td class="num">2,499</td><td class="num">9,478</td></tr><tr><td class="">2018 to 2021</td><td class="num">2,537</td><td class="num">3,102</td><td class="num">7,886</td></tr><tr><td class="">2021 to 2023</td><td class="num">2,166</td><td class="num">1,587</td><td class="num">8,836</td></tr><tr><td class="">2023 to 2024</td><td class="num">85</td><td class="num">121</td><td class="num">10,881</td></tr></tbody></table></div></div>
+</div>
+
+<h2>Against USDA's new SNAP retailer map</h2>
+<div class="col"><p>In July 2026 the Economic Research Service added a SNAP-authorized Retailer Access Map (SRAM) to the Food Access Research Atlas. It counts every SNAP store except farmers markets, so a convenience store satisfies it, and it screens tracts on poverty or median family income rather than SNAP participation. The comparison below uses SRAM's low-income, low-access flag at the same half-mile and ten-mile thresholds, straight-line distance.</p></div>
+<div class="tiles"><div class="tile t-both"><div class="tile-n">2,971</div><div class="tile-l">Desert by both measures</div><div class="tile-s">3.6% of tracts</div></div><div class="tile t-snap"><div class="tile-n">7,995</div><div class="tile-l">SNAP desert only</div><div class="tile-s">9.6% of tracts</div></div><div class="tile t-sram"><div class="tile-n">6,931</div><div class="tile-l">USDA low-income low-access only</div><div class="tile-s">8.3% of tracts</div></div><div class="tile t-none"><div class="tile-n">65,737</div><div class="tile-l">Neither</div><div class="tile-s">78.6% of tracts</div></div></div>
+<div class="col">
+<p class="big">With date, locations, and rule held fixed, 79% of SNAP deserts have a SNAP store of another format within the threshold.</p>
+<p>That controlled comparison changes only the store universe. Under USDA's own population-share rule on block-group centers the figure is 63% to 70%. SRAM's published flag rates 6,698 of the 10,836 matched deserts as not low access, and 6,413 of those are also not low access under our any-format rule, so format explains almost all of that gap. Aggregation still matters for which tracts any map flags: our any-format flag agrees with SRAM's in 74% of tracts under the center rule and 91% under the grid rule with SRAM's urban flag. A six-month retailer vintage gap changes 0.5% of flags. The grid rule designates 13,910 SNAP deserts, against 10,836 under the center rule. A further 2,033 desert tracts fail SRAM's low-income screen.</p>
+<p>Tribal areas: 235 of the 1,373 tracts that lie mostly inside tribal areas are SNAP deserts (17.1% versus 13.0% elsewhere), holding 72,816 SNAP households.</p>
+</div>
+<div class="two">
+  <div><h3>States with the most SRAM-adequate deserts</h3><div class="scroll"><table class="tbl"><thead><tr><th>State</th><th>Tracts</th><th>SNAP HH</th><th>Share of state&#x27;s deserts %</th></tr></thead><tbody><tr><td class="">TX</td><td class="num">723</td><td class="num">253,249</td><td class="num">60.4</td></tr><tr><td class="">CA</td><td class="num">651</td><td class="num">214,004</td><td class="num">64.8</td></tr><tr><td class="">OH</td><td class="num">443</td><td class="num">153,074</td><td class="num">72.9</td></tr><tr><td class="">PA</td><td class="num">408</td><td class="num">169,556</td><td class="num">77.1</td></tr><tr><td class="">MI</td><td class="num">408</td><td class="num">142,899</td><td class="num">75.7</td></tr><tr><td class="">FL</td><td class="num">403</td><td class="num">162,072</td><td class="num">43.5</td></tr><tr><td class="">IL</td><td class="num">375</td><td class="num">133,529</td><td class="num">66.6</td></tr><tr><td class="">NY</td><td class="num">272</td><td class="num">100,943</td><td class="num">76.8</td></tr><tr><td class="">GA</td><td class="num">185</td><td class="num">61,826</td><td class="num">43.9</td></tr><tr><td class="">LA</td><td class="num">178</td><td class="num">48,741</td><td class="num">62.5</td></tr></tbody></table></div></div>
+  <div><h3>Continuity with the Alabama paper</h3><p>Our 2018 deserts against the 2019 Large Retailer Access Map, the supermarket-based atlas the Alabama draft used: 82.4% of SNAP deserts were also USDA food deserts (Alabama draft: 74.2%). Typology: both 8,297, SNAP only 1,772, food desert only 11,855, neither 50,538.</p></div>
+</div>
+
+<h2>Food deserts and the participation criterion</h2>
+<div class="col"><p>Food deserts get the policy attention. The test of whether that attention reaches SNAP households is whether the two designations select the same tracts. Here the access measure is held identical for both, no full-service SNAP store within USDA's food desert distances of half a mile in urban tracts or ten miles in rural ones, and only the need criterion changes: USDA's low-income rule (poverty of 20% or more, or median family income at or below 80% of the state or metro median) against SNAP participation of 15% or more.</p></div>
+<div class="tiles"><div class="tile t-both"><div class="tile-n">8,803</div><div class="tile-l">Both a food desert and a SNAP desert</div><div class="tile-s">10.7% of tracts</div></div><div class="tile t-snap"><div class="tile-n">2,033</div><div class="tile-l">SNAP desert only</div><div class="tile-s">2.5% of tracts</div></div><div class="tile t-sram"><div class="tile-n">5,206</div><div class="tile-l">Food desert only</div><div class="tile-s">6.3% of tracts</div></div><div class="tile t-none"><div class="tile-n">66,585</div><div class="tile-l">Neither</div><div class="tile-s">80.6% of tracts</div></div></div>
+<div class="col">
+<p class="big">2,033 SNAP desert tracts fail USDA's income test, but only 339 of them are robust to survey error and at least 74% already qualify for food financing.</p>
+<p>Those tracts average a poverty rate of 13% and a median family income of 104% of the state median, yet 21% of their households receive SNAP. They are 94% urban and 26% Hispanic, and most sit in the Moderate tier. The reverse group, food deserts without a SNAP access problem, is larger: 5,206 tracts where SNAP participation averages 9% and 30% of adults hold a bachelor's degree. Applying the one-mile urban threshold that USDA's atlas uses by default to both measures leaves 737 SNAP desert tracts (19.9%) outside the food desert designation. Blind-spot tracts concentrate in FL 292, CA 219, TX 193, IL 113, PA 95, MI 81, GA 75, OH 74, NY 67, OR 62. Summing probabilities over low-access tracts gives an expected 11,033 deserts, so the national count is stable, but only 47% of designated tracts clear the 15% cutoff at the 90% level. The cutoff also leaves out 2,475,872 SNAP households who live in low-access tracts with participation under 15%.</p>
+</div>
+<div class="scroll"><table class="tbl"><thead><tr><th>Threshold</th><th>SNAP deserts</th><th>Food deserts</th><th>Both</th><th>SNAP only</th><th>Food only</th><th>SNAP deserts outside food deserts %</th><th>Food deserts outside SNAP deserts %</th><th>SNAP HH in blind spot</th></tr></thead><tbody><tr><td class="">Half-mile urban, both measures</td><td class="num">10,836</td><td class="num">14,009</td><td class="num">8,803</td><td class="num">2,033</td><td class="num">5,206</td><td class="num">18.8</td><td class="num">37.2</td><td class="num">634,548</td></tr><tr><td class="">One-mile urban, both measures</td><td class="num">3,711</td><td class="num">4,908</td><td class="num">2,974</td><td class="num">737</td><td class="num">1,934</td><td class="num">19.9</td><td class="num">39.4</td><td class="num">224,078</td></tr></tbody></table></div>
+<h3>Against USDA's published layers</h3>
+<div class="scroll"><table class="tbl"><thead><tr><th>USDA layer</th><th>SNAP deserts</th><th>USDA deserts</th><th>Both</th><th>SNAP only</th><th>USDA only</th><th>SNAP deserts not flagged %</th><th>USDA deserts not SNAP deserts %</th></tr></thead><tbody><tr><td class="">LRAM 2019, 0.5 &amp; 10 mi</td><td class="num">10,068</td><td class="num">20,152</td><td class="num">8,297</td><td class="num">1,771</td><td class="num">11,855</td><td class="num">17.6</td><td class="num">58.8</td></tr><tr><td class="">LRAM 2019, 1 &amp; 10 mi (USDA default)</td><td class="num">10,068</td><td class="num">9,228</td><td class="num">3,920</td><td class="num">6,148</td><td class="num">5,308</td><td class="num">61.1</td><td class="num">57.5</td></tr><tr><td class="">LRAM 2019, vehicle-access variant</td><td class="num">10,068</td><td class="num">10,082</td><td class="num">4,806</td><td class="num">5,262</td><td class="num">5,276</td><td class="num">52.3</td><td class="num">52.3</td></tr><tr><td class="">SRAM 2025 (any SNAP store), 0.5 &amp; 10 mi</td><td class="num">10,966</td><td class="num">9,902</td><td class="num">2,971</td><td class="num">7,995</td><td class="num">6,931</td><td class="num">72.9</td><td class="num">70.0</td></tr></tbody></table></div>
+<p class="cap">The 2019 atlas rows compare its flags with our 2018 classification on 2010 tracts; its one-mile default accounts for part of the gap there. The 2025 SRAM row counts convenience stores as access.</p>
+
+<h2>Cars change the map</h2>
+<div class="col"><p>The distance thresholds assume households drive. Two vehicle-aware measures test that. A carless core keeps the main definition and asks where at least a fifth of households have no vehicle. A vehicle variant applies USDA's own vehicle-access rule to SNAP need: at least 15% of households on SNAP and either 100 or more carless households beyond half a mile of a full-service store at any density, or a center more than 20 miles from one.</p></div>
+<div class="tiles"><div class="tile t-both"><div class="tile-n">6,764</div><div class="tile-l">Desert under both definitions</div><div class="tile-s">half-mile rule and vehicle rule agree</div></div><div class="tile t-snap"><div class="tile-n">2,391</div><div class="tile-l">Added by the vehicle rule</div><div class="tile-s">all rural; 868,351 SNAP households</div></div><div class="tile t-sram"><div class="tile-n">4,202</div><div class="tile-l">Dropped by the vehicle rule</div><div class="tile-s">fewer than 100 carless households</div></div><div class="tile t-none"><div class="tile-n">2,209</div><div class="tile-l">Carless core of the deserts</div><div class="tile-s">a fifth or more of households have no car</div></div></div>
+<div class="col">
+<p class="big">The vehicle rule adds 2,391 rural tracts with 868,351 SNAP households that USDA's ten-mile rural rule calls served.</p>
+<p>They sit an average of 2.3 miles from a full-service store and hold 421,401 carless households, concentrated in NC 168, GA 146, LA 145, KY 131, TX 127, AL 114, SC 109, OH 107, WV 102, FL 88. It also drops 4,202 urban deserts where almost everyone drives. The union of the two definitions covers 13,357 tracts and 4,820,821 SNAP households, 32.3% of the national total. Inside the cities, the 2,209 carless-core deserts hold 940,018 SNAP households and have a Black population share of 49%, against 29% across all deserts; they cluster in PA 201, OH 171, NY 168, IL 167, MI 138, TX 108, FL 93, GA 90, MD 79, LA 79.</p>
+</div>
+<h3>Vehicle variant over time</h3>
+<div class="scroll"><table class="tbl"><thead><tr><th>Year</th><th>Main deserts</th><th>Vehicle variant</th><th>Added by vehicle rule</th><th>Union</th><th>Union share of SNAP HH %</th></tr></thead><tbody><tr><td class="">2012</td><td class="num">9,005</td><td class="num">9,628</td><td class="num">2,930</td><td class="num">11,935</td><td class="num">33.6</td></tr><tr><td class="">2015</td><td class="num">10,921</td><td class="num">11,262</td><td class="num">3,393</td><td class="num">14,314</td><td class="num">36.9</td></tr><tr><td class="">2018</td><td class="num">10,069</td><td class="num">10,160</td><td class="num">2,996</td><td class="num">13,065</td><td class="num">34.8</td></tr><tr><td class="">2021</td><td class="num">10,423</td><td class="num">8,915</td><td class="num">2,290</td><td class="num">12,713</td><td class="num">32.2</td></tr><tr><td class="">2023</td><td class="num">11,002</td><td class="num">9,191</td><td class="num">2,389</td><td class="num">13,391</td><td class="num">32.4</td></tr><tr><td class="">2024</td><td class="num">10,966</td><td class="num">9,155</td><td class="num">2,391</td><td class="num">13,357</td><td class="num">32.3</td></tr></tbody></table></div>
+
+<h2>Which authorizations end, and how rarely that means lost access</h2>
+<div class="col"><p>A store-level model is trained on every authorization active on January 1, 2019 (244,782 records; 28.5% exited by the end of 2022) and validated with cross-validation that holds out whole states. Scores are then produced for stores active at the end of 2024, and for each high-SNAP tract that still has a full-service store in reach, the probability that every such store exits within four years.</p></div>
+<div class="scroll"><table class="tbl"><thead><tr><th>Model</th><th>CV AUC (by state)</th><th>CV avg precision</th><th>Holdout AUC</th><th>Precision</th><th>Recall</th><th>F1</th></tr></thead><tbody><tr><td class="">LogisticRegression</td><td class="num">0.745</td><td class="num">0.506</td><td class="num">0.745</td><td class="num">0.600</td><td class="num">0.236</td><td class="num">0.339</td></tr><tr><td class="">RandomForest</td><td class="num">0.768</td><td class="num">0.535</td><td class="num">0.774</td><td class="num">0.624</td><td class="num">0.306</td><td class="num">0.410</td></tr><tr><td class="">HistGradientBoosting</td><td class="num">0.772</td><td class="num">0.544</td><td class="num">0.780</td><td class="num">0.615</td><td class="num">0.357</td><td class="num">0.451</td></tr></tbody></table></div>
+<p class="cap">Best model: HistGradientBoosting. Within-type AUC checks that the model separates stores beyond their format: Combination Grocery/Other 0.73, Convenience Store 0.68, Farmers' Market 0.68, Large Grocery Store 0.56, Medium Grocery Store 0.54, Other 0.86, Small Grocery Store 0.64, Specialty 0.61, Super Store 0.79, Supermarket 0.69</p>
+<div class="two">
+  <div><h3>What predicts exit</h3><div class="scroll"><table class="tbl"><thead><tr><th>Feature</th><th>AUC drop when permuted</th></tr></thead><tbody><tr><td class="">type: Combination Grocery/Other</td><td class="num">0.098</td></tr><tr><td class="">auth_years</td><td class="num">0.042</td></tr><tr><td class="">type: Super Store</td><td class="num">0.040</td></tr><tr><td class="">type: Supermarket</td><td class="num">0.027</td></tr><tr><td class="">stores_within_1mi</td><td class="num">0.014</td></tr><tr><td class="">lat</td><td class="num">0.008</td></tr><tr><td class="">lon</td><td class="num">0.007</td></tr><tr><td class="">type: Convenience Store</td><td class="num">0.005</td></tr><tr><td class="">prior_auths_at_loc</td><td class="num">0.004</td></tr><tr><td class="">dist_other_fs</td><td class="num">0.003</td></tr></tbody></table></div></div>
+  <div><h3>Expected new deserts by state</h3><div class="scroll"><table class="tbl"><thead><tr><th>State</th><th>Expected new deserts</th></tr></thead><tbody><tr><td class="">CA</td><td class="num">99.6</td></tr><tr><td class="">IL</td><td class="num">58.8</td></tr><tr><td class="">PA</td><td class="num">56.1</td></tr><tr><td class="">TX</td><td class="num">54.9</td></tr><tr><td class="">FL</td><td class="num">52</td></tr><tr><td class="">NY</td><td class="num">49.5</td></tr><tr><td class="">MI</td><td class="num">43.9</td></tr><tr><td class="">OH</td><td class="num">42.3</td></tr><tr><td class="">GA</td><td class="num">27.4</td></tr><tr><td class="">NJ</td><td class="num">25.6</td></tr></tbody></table></div></div>
+</div>
+<div class="kpis">
+  <div class="kpi"><div class="v">342-352</div><div class="l">tracts expected to lose full-service access within four years</div><div class="s">incumbent-exit scenario of 874 tracts, scaled by backtests (replacement and entry undo about 60%)</div></div>
+  <div class="kpi"><div class="v">41%</div><div class="l">of ended full-service authorizations are replaced at the same site</div><div class="s">scores are calibrated out of time: predicted 28.1%, realized 27.5% exit in 2021-24</div></div>
+  <div class="kpi"><div class="v">5,207</div><div class="l">high-SNAP tracts that depend on a single full-service store</div><div class="s">1,845,667 SNAP households</div></div>
+  <div class="kpi"><div class="v">6,143</div><div class="l">high-SNAP tracts whose only in-reach SNAP stores are small formats</div><div class="s">2,186,722 SNAP households exposed to the 2026 stocking rule</div></div>
+</div>
+<div class="col"><p class="cap" style="margin-top:10px">The final stocking-standards rule published May 8, 2026 requires seven staple varieties per category by November 4, 2026; USDA expected roughly 5,000 small stores to lose authorization. The last tile counts tracts where every SNAP store within the access threshold is a convenience, small grocery, or combination store. States with the most such tracts:</p></div>
+<div class="scroll"><table class="tbl"><thead><tr><th>State</th><th>Tracts</th></tr></thead><tbody><tr><td class="">TX</td><td class="num">743</td></tr><tr><td class="">OH</td><td class="num">426</td></tr><tr><td class="">FL</td><td class="num">426</td></tr><tr><td class="">CA</td><td class="num">424</td></tr><tr><td class="">MI</td><td class="num">370</td></tr><tr><td class="">PA</td><td class="num">316</td></tr><tr><td class="">IL</td><td class="num">288</td></tr><tr><td class="">GA</td><td class="num">212</td></tr><tr><td class="">NY</td><td class="num">196</td></tr><tr><td class="">NC</td><td class="num">170</td></tr></tbody></table></div>
+
+<h2>Extensions</h2>
+<div class="col"><p class="big">Weighted by SNAP households, tract centers are 1.49 miles from a full-service SNAP store: 0.68 in urban tracts, 3.46 in rural ones.</p>
+<p>A continuous measure ranks states differently from the binary flag. New Mexico leads on both, but the rest of the top ten by SNAP-household-weighted distance are rural states, and across states the rank correlation between the desert share of tracts and weighted miles is -0.29. The half-mile rule finds urban neighborhoods with no supermarket in walking range; the continuous measure finds the states where miles accumulate. Veterans: 1,693,330 (10.6% of all veterans) live in SNAP desert tracts.</p></div>
+<h3>Named regions</h3>
+<div class="scroll"><table class="tbl"><thead><tr><th>Region</th><th>Tracts</th><th>Desert %</th><th>SNAP HH in deserts %</th><th>With vehicle variant %</th><th>SNAP-HH-weighted miles</th></tr></thead><tbody><tr><td class="">Alabama Black Belt</td><td class="num">204</td><td class="num">26</td><td class="num">36.6</td><td class="num">40.2</td><td class="num">3.2</td></tr><tr><td class="">Mississippi Delta</td><td class="num">154</td><td class="num">21.4</td><td class="num">33.1</td><td class="num">34.4</td><td class="num">3.9</td></tr><tr><td class="">Texas border (colonias)</td><td class="num">654</td><td class="num">43</td><td class="num">52.7</td><td class="num">45.7</td><td class="num">1.2</td></tr><tr><td class="">Majority-tribal tracts</td><td class="num">1,373</td><td class="num">17.1</td><td class="num">25.8</td><td class="num">26.1</td><td class="num">3.7</td></tr><tr><td class="">Contiguous United States</td><td class="num">83,634</td><td class="num">13.1</td><td class="num">26.5</td><td class="num">16</td><td class="num">1.5</td></tr></tbody></table></div>
+<h3>Which conclusions survive the classification choices</h3>
+<div class="col"><p>Twelve configurations cross the participation cutoff, the urban rule, and the aggregation rule. The Census urban-area flag moves 1,976 suburban-fringe tracts from the ten-mile to the half-mile threshold and raises the headline count from 10,836 to 12,735. A core of 10,583 tracts is a desert under every urban and aggregation rule at 15%; the union is 16,399. The level is a convention; the core, the format finding, and the time-series finding are not.</p></div>
+<div class="scroll"><table class="tbl"><thead><tr><th>Aggregation</th><th>Urban rule</th><th>Cutoff</th><th>Deserts</th><th>SNAP HH</th><th>% of all SNAP HH</th><th>Rural %</th><th>Fail income test</th><th>Robust to ACS error</th></tr></thead><tbody><tr><td class="">Tract center</td><td class="">Density</td><td class="">10%</td><td class="num">16,025</td><td class="num">4,932,021</td><td class="num">33.1</td><td class="num">5.8</td><td class="num">4,822</td><td class="num">8,291</td></tr><tr><td class="">Tract center</td><td class="">Density</td><td class="">15%</td><td class="num">10,836</td><td class="num">3,893,835</td><td class="num">26.1</td><td class="num">5</td><td class="num">2,033</td><td class="num">5,039</td></tr><tr><td class="">Tract center</td><td class="">Density</td><td class="">20%</td><td class="num">7,363</td><td class="num">2,974,665</td><td class="num">19.9</td><td class="num">3.9</td><td class="num">799</td><td class="num">3,081</td></tr><tr><td class="">Tract center</td><td class="">Census urban area</td><td class="">10%</td><td class="num">19,025</td><td class="num">5,755,647</td><td class="num">38.6</td><td class="num">4.9</td><td class="num">5,926</td><td class="num">9,663</td></tr><tr><td class="">Tract center</td><td class="">Census urban area</td><td class="">15%</td><td class="num">12,735</td><td class="num">4,503,626</td><td class="num">30.2</td><td class="num">4.2</td><td class="num">2,477</td><td class="num">5,767</td></tr><tr><td class="">Tract center</td><td class="">Census urban area</td><td class="">20%</td><td class="num">8,575</td><td class="num">3,404,254</td><td class="num">22.8</td><td class="num">3.3</td><td class="num">970</td><td class="num">3,461</td></tr><tr><td class="">USDA rule, block groups</td><td class="">Density</td><td class="">10%</td><td class="num">20,635</td><td class="num">6,421,055</td><td class="num">43</td><td class="num">7.9</td><td class="num">6,204</td><td class="num">10,684</td></tr><tr><td class="">USDA rule, block groups</td><td class="">Density</td><td class="">15%</td><td class="num">13,910</td><td class="num">5,068,823</td><td class="num">34</td><td class="num">6.5</td><td class="num">2,602</td><td class="num">6,398</td></tr><tr><td class="">USDA rule, block groups</td><td class="">Density</td><td class="">20%</td><td class="num">9,375</td><td class="num">3,856,591</td><td class="num">25.8</td><td class="num">4.9</td><td class="num">1,032</td><td class="num">3,824</td></tr><tr><td class="">USDA rule, block groups</td><td class="">Census urban area</td><td class="">10%</td><td class="num">24,124</td><td class="num">7,400,185</td><td class="num">49.6</td><td class="num">6.8</td><td class="num">7,465</td><td class="num">12,295</td></tr><tr><td class="">USDA rule, block groups</td><td class="">Census urban area</td><td class="">15%</td><td class="num">16,123</td><td class="num">5,796,254</td><td class="num">38.9</td><td class="num">5.6</td><td class="num">3,113</td><td class="num">7,252</td></tr><tr><td class="">USDA rule, block groups</td><td class="">Census urban area</td><td class="">20%</td><td class="num">10,777</td><td class="num">4,366,788</td><td class="num">29.3</td><td class="num">4.3</td><td class="num">1,227</td><td class="num">4,271</td></tr></tbody></table></div>
+<h3>Dollar stores and full-service exit</h3>
+<div class="col"><p>High-participation tracts draw three times as many new dollar-store authorizations as other tracts. With the sample and controls fixed before the entry window, each new dollar store within a mile is associated with 1.7 percentage points more full-service authorization endings (95% CI 1.1 to 2.3), about 9% of the mean. Tract-level loss of access is too imprecisely estimated to interpret (0.37 points, CI -0.41 to 1.15). These are conditional associations, not effects.</p></div>
+<div class="scroll"><table class="tbl"><thead><tr><th>Model</th><th>n</th><th>Outcome mean %</th><th>Per new dollar store within 1 mi (pp)</th><th>95% CI</th></tr></thead><tbody><tr><td class="">Store: authorization ended, window effects only</td><td class="num">84,344</td><td class="num">18.8</td><td class="num">4.2</td><td class="">3.65 to 4.73</td></tr><tr><td class="">Store: full pre-entry controls</td><td class="num">84,344</td><td class="num">18.8</td><td class="num">1.7</td><td class="">1.11 to 2.32</td></tr><tr><td class="">Tract: lost full-service access, full controls</td><td class="num">81,395</td><td class="num">2.9</td><td class="num">0.4</td><td class="">-0.41 to 1.15</td></tr><tr><td class="">Tract: high-participation only, full controls</td><td class="num">27,225</td><td class="num">4.3</td><td class="num">0.2</td><td class="">-0.60 to 0.96</td></tr></tbody></table></div>
+<h3>State cost sharing under the 2025 reconciliation law</h3>
+<div class="col"><p>From fiscal 2028 states pay a share of benefit costs set by their payment error rate. Applying FY2024 rates, the top tier holds 54.8% of the SNAP households living in deserts and 57.5% of all SNAP households, so desert households are not disproportionately exposed. Five jurisdictions combine the top tier with more than 30% of their SNAP households in deserts: CT, DC, FL, NM, OK. How states will respond is not something the map can say.</p></div>
+<div class="scroll"><table class="tbl"><thead><tr><th>State cost share from FY2028</th><th>States</th><th>Share of all SNAP HH %</th><th>Share of desert SNAP HH %</th><th>SNAP HH in deserts %</th><th>States in tier</th></tr></thead><tbody><tr><td class="">0%</td><td class="num">8</td><td class="num">4.4</td><td class="num">3.7</td><td class="num">22.3</td><td class="">ID NE NV SD UT VT WI WY</td></tr><tr><td class="">5%</td><td class="num">5</td><td class="num">5.5</td><td class="num">5.2</td><td class="num">25.1</td><td class="">IA LA ND NH WA</td></tr><tr><td class="">10%</td><td class="num">16</td><td class="num">32.7</td><td class="num">36.4</td><td class="num">29.5</td><td class="">AL AR AZ CO IN KS KY MI MN MO MT OH SC TN TX WV</td></tr><tr><td class="">15%</td><td class="num">20</td><td class="num">57.5</td><td class="num">54.8</td><td class="num">25.2</td><td class="">CA CT DC DE FL GA IL MA MD ME MS NC NJ NM NY OK OR PA RI VA</td></tr></tbody></table></div>
+<h3>Online purchasing rollout</h3>
+<div class="col"><p>Desert tracts' SNAP participation fell relative to other tracts between the 2014-18 and 2019-23 ACS in every rollout group, mostly regression to the mean from a threshold-defined group, and the gap shows no monotone relation with when online purchasing arrived. The test is weak because the ACS windows straddle the rollout.</p></div>
+<div class="scroll"><table class="tbl"><thead><tr><th>Rollout wave</th><th>States</th><th>Desert tracts (2018)</th><th>Change in SNAP share, deserts (pp)</th><th>Change, non-deserts (pp)</th><th>Gap (pp)</th><th>Full-service exit 2021-24 in deserts %</th></tr></thead><tbody><tr><td class="">Live by April 2020</td><td class="num">17</td><td class="num">5,293</td><td class="num">-3</td><td class="num">0.2</td><td class="num">-3.2</td><td class="num">8.4</td></tr><tr><td class="">Approved May 2020</td><td class="num">20</td><td class="num">4,805</td><td class="num">-2.4</td><td class="num">0</td><td class="num">-2.4</td><td class="num">8.9</td></tr><tr><td class="">June 2020 or later</td><td class="num">12</td><td class="num">857</td><td class="num">-4.0</td><td class="num">-0.9</td><td class="num">-3.1</td><td class="num">9.6</td></tr></tbody></table></div>
+<h3>Pre-registered predictions</h3>
+<div class="col"><p>The exit-risk score files were frozen on 2026-09-19 with SHA-256 hashes so that the retailer files released after the November 4, 2026 compliance date can test five stated claims.</p><ul style="font-size:12px;max-width:none"><li><code>store_risk_scores.csv</code> &middot; 54a6bc9c8bf2eb46236d9878ebd8ea3d570864aef55ab991928e7ac54ff82bc9</li><li><code>tract_risk.csv</code> &middot; b474c0f404f1ce09ab4b86909970b23f6498b2b938ac806dd97272b02430c9a5</li><li><code>model_metrics.json</code> &middot; 3be8cabc3eb6f2bb8d68031d36f13615f314685e596a6464610481edba905097</li><li><code>risk_summary.json</code> &middot; e8847b5dee93c9e2a93e512ab41b59f5b0a97d852e3bf04c5d00383b5147dc14</li><li><code>review_forecast.json</code> &middot; 5b407849ae6f6aff1058e44fe4f198b36ccc1cfd261c44b4c29aa184a66b6e0f</li></ul></div>
+
+<h2>Alabama, reconciled</h2>
+<div class="col"><p>The March 2026 Alabama scripts forced every ACS year onto 2023 tract boundaries. In 2012, 2015, and 2018 only about 930 of 1,436 tracts matched, and the rest were silently counted as non-deserts. The corrected series uses each year's own boundaries.</p></div>
+<div class="scroll"><table class="tbl"><thead><tr><th>Year</th><th>Tracts</th><th>With ACS data</th><th>Deserts (corrected)</th><th>Desert % (corrected)</th><th>Deserts (old script)</th><th>Desert % (old script)</th></tr></thead><tbody><tr><td class="">2012</td><td class="num">1,180</td><td class="num">1,180</td><td class="num">181</td><td class="num">15.3</td><td class="num">175</td><td class="num">12.2</td></tr><tr><td class="">2015</td><td class="num">1,180</td><td class="num">1,180</td><td class="num">221</td><td class="num">18.7</td><td class="num">209</td><td class="num">14.6</td></tr><tr><td class="">2018</td><td class="num">1,180</td><td class="num">1,180</td><td class="num">203</td><td class="num">17.2</td><td class="num">200</td><td class="num">13.9</td></tr><tr><td class="">2021</td><td class="num">1,436</td><td class="num">1,436</td><td class="num">207</td><td class="num">14.4</td><td class="num">211</td><td class="num">14.7</td></tr><tr><td class="">2023</td><td class="num">1,436</td><td class="num">1,436</td><td class="num">211</td><td class="num">14.7</td><td class="num">218</td><td class="num">15.2</td></tr><tr><td class="">2024</td><td class="num">1,436</td><td class="num">1,436</td><td class="num">210</td><td class="num">14.6</td><td class="">n/a</td><td class="">n/a</td></tr></tbody></table></div>
+
+<h2>Methods notes</h2>
+<ul>
+<li>Retailers: USDA Historical SNAP Retailer Locator, 12/31/2024 release. A record is active on a date if authorized on or before it and not yet ended. The 29% of records without coordinates are almost entirely closures before 2006.</li>
+<li>Full-service means the USDA store types Supermarket, Large Grocery Store, and Super Store. Medium and small grocery, combination grocery/other (mostly dollar stores), convenience, and specialty stores are excluded from the access measure.</li>
+<li>Urban tracts have ACS population density of at least 1,000 per square mile; SRAM instead uses Census urban areas.</li>
+<li>Distance is great-circle from the Census population-weighted tract center to the nearest store. Driving distance is not computed here; SRAM's driving-distance flags are used where cited.</li>
+<li>Tract-level exit risk multiplies store-level probabilities as if exits were independent, which understates risk where closures are correlated.</li>
+<li>Pipeline: <code>national/</code> folder, scripts 01 through 07; every figure on this page is generated from <code>outputs/dashboard_data.json</code>.</li>
+</ul>
+<footer>Generated 2026-09-21 from the national SNAP desert pipeline. Data: USDA FNA retailer file, Census ACS 5-year, Census cartographic boundaries and population centers, ERS SRAM 2025 and LRAM 2019.</footer>
+</div>
